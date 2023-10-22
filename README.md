@@ -5,3 +5,6 @@
  Dzia³a tylko pod Windows-em 
 
  Nie odpowieada na pytania Z teorii
+
+
+
