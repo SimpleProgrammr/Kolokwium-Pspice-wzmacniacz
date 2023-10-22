@@ -9,6 +9,11 @@ namespace Kolokwium_Pspice_wzmacniacz
 {
     internal class Program
     {
+        static string? ReadLine()
+        {
+            return Console.ReadLine()?.Replace('.', ',');
+        }
+
         static void Main(string[] args)
         {
             NumberFormatInfo setPrec = new();
@@ -17,19 +22,19 @@ namespace Kolokwium_Pspice_wzmacniacz
             double Uce, Ic, Ucc, Ro, Fd, Ib, Ib1, Ib2, Ube, Beta, Ie, Rc, Re, Rb1, Rb2, gm, Rl, ku;
             
             Console.Write("Podaj dane:\nUce[V] = ");
-            Uce = Convert.ToDouble (Console.ReadLine());
+            Uce = Convert.ToDouble (ReadLine());
 
             Console.Write("Ic[mA] = ");
-            Ic = Convert.ToDouble(Console.ReadLine())/1000;
+            Ic = Convert.ToDouble(ReadLine())/1000;
 
             Console.Write("Ucc[V] = ");
-            Ucc = Convert.ToDouble(Console.ReadLine());
+            Ucc = Convert.ToDouble(ReadLine());
 
             Console.Write("Ro[kOhm] = ");
-            Ro = Convert.ToDouble(Console.ReadLine())*1000;
+            Ro = Convert.ToDouble(ReadLine())*1000;
 
             Console.Write("Fd[Hz] = ");
-            Fd = Convert.ToDouble(Console.ReadLine());
+            Fd = Convert.ToDouble(ReadLine());
 
             Rc = Math.Round((Ucc - Uce) / (1.1 * Ic),2);
             Re = Math.Round(Rc / 10, 2);
@@ -54,13 +59,13 @@ namespace Kolokwium_Pspice_wzmacniacz
             File.Copy(@"E:\Szkoła\Informatyka\C#\Kolokwium-Pspice-wzmacniacz\EUROPE.LIB", ".\\Gotowiec\\EUROPE.LIB", true);
 
             Console.WriteLine("Zamknij Pspice i kliknij ENTER!!!");
-            Console.ReadLine();
+            ReadLine();
 
             Console.Write("Ib[uA] = ");
-            Ib = Convert.ToDouble(Console.ReadLine()) / 1000000;
+            Ib = Convert.ToDouble(ReadLine()) / 1000000;
 
             Console.Write("Ube[mV] = ");
-            Ube = Convert.ToDouble(Console.ReadLine()) / 1000;
+            Ube = Convert.ToDouble(ReadLine()) / 1000;
 
             Beta = Ic / Ib;
             Ie = Ic + Ib;
