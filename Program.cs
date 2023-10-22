@@ -42,31 +42,31 @@ namespace Kolokwium_Pspice_wzmacniacz
                 }                
             }
 
-            if (Uce != 0)
+            if (Uce == 0)
             {
                 Console.Write("Podaj dane:\nUce[V] = ");
                 Uce = Convert.ToDouble(ReadLine());
             }
 
-            if (Ic != 0)
+            if (Ic == 0)
             {
                 Console.Write("Ic[mA] = ");
                 Ic = Convert.ToDouble(ReadLine()) / 1000;
             }
 
-            if (Ucc != 0)
+            if (Ucc == 0)
             {
                 Console.Write("Ucc[V] = ");
                 Ucc = Convert.ToDouble(ReadLine());
             }
 
-            if (Ro != 0)
+            if (Ro == 0)
             {
                 Console.Write("Ro[kOhm] = ");
                 Ro = Convert.ToDouble(ReadLine()) * 1000;
             }
 
-            if (Fd != 0)
+            if (Fd == 0)
             {
                 Console.Write("Fd[Hz] = ");
                 Fd = Convert.ToDouble(ReadLine());
