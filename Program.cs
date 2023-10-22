@@ -48,9 +48,12 @@ I1 0 1 DC 1
 .end
  */
 
+using System;
 using System.Globalization;
 using System.Windows;
 using TextCopy;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Kolokwium_Pspice_wzmacniacz
 {
