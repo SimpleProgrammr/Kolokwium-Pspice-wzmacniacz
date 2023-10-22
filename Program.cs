@@ -16,29 +16,65 @@ namespace Kolokwium_Pspice_wzmacniacz
 
         static void Main(string[] args)
         {
+
             NumberFormatInfo setPrec = new();
             setPrec.NumberDecimalDigits = 3;
 
-            double Uce, Ic, Ucc, Ro, Fd, Ib, Ib1, Ib2, Ube, Beta, Ie, Rc, Re, Rb1, Rb2, gm, Rl, ku;
+            double Uce = 0, Ic = 0, Ucc = 0, Ro = 0, Fd = 0, Ib = 0, Ib1 = 0, Ib2 = 0, Ube = 0, Beta = 0, Ie = 0, Rc = 0, Re = 0, Rb1 = 0, Rb2 = 0, gm = 0, Rl = 0, ku = 0;
             
-            Console.Write("Podaj dane:\nUce[V] = ");
-            Uce = Convert.ToDouble (ReadLine());
+            if(args.Length > 0 ) 
+            {
 
-            Console.Write("Ic[mA] = ");
-            Ic = Convert.ToDouble(ReadLine())/1000;
+                if (args[0] == "-h" || args[0] == "--help")
+                { Manual(); return; }
+                if (args[0] == "-a" || args[0] == "--arg")
+                {
+                    if(args.Length >= 2)
+                        Uce = Convert.ToDouble(args[1].Replace('.',','));
+                    if (args.Length >= 3)
+                        Ic = Convert.ToDouble(args[1].Replace('.', ','));
+                    if (args.Length >= 4)
+                        Ucc = Convert.ToDouble(args[1].Replace('.', ','));
+                    if (args.Length >= 5)
+                        Ro = Convert.ToDouble(args[1].Replace('.', ','));
+                    if (args.Length >= 6)
+                        Fd = Convert.ToDouble(args[1].Replace('.', ','));
+                }                
+            }
 
-            Console.Write("Ucc[V] = ");
-            Ucc = Convert.ToDouble(ReadLine());
+            if (Uce != 0)
+            {
+                Console.Write("Podaj dane:\nUce[V] = ");
+                Uce = Convert.ToDouble(ReadLine());
+            }
 
-            Console.Write("Ro[kOhm] = ");
-            Ro = Convert.ToDouble(ReadLine())*1000;
+            if (Ic != 0)
+            {
+                Console.Write("Ic[mA] = ");
+                Ic = Convert.ToDouble(ReadLine()) / 1000;
+            }
 
-            Console.Write("Fd[Hz] = ");
-            Fd = Convert.ToDouble(ReadLine());
+            if (Ucc != 0)
+            {
+                Console.Write("Ucc[V] = ");
+                Ucc = Convert.ToDouble(ReadLine());
+            }
 
-            Rc = Math.Round((Ucc - Uce) / (1.1 * Ic),2);
+            if (Ro != 0)
+            {
+                Console.Write("Ro[kOhm] = ");
+                Ro = Convert.ToDouble(ReadLine()) * 1000;
+            }
+
+            if (Fd != 0)
+            {
+                Console.Write("Fd[Hz] = ");
+                Fd = Convert.ToDouble(ReadLine());
+            }
+
+            Rc = Math.Round((Ucc - Uce) / (1.1 * Ic), 2);
             Re = Math.Round(Rc / 10, 2);
-
+            
             Console.WriteLine("\n\nOdpal ten program(już jest w folderze programu)\nUtwórz wykres dla wartości IC(Q1) i V(1)\nUstaw wskaźnik na punkt gdzie IC={0} \nOdczytaj wartości z wykresu V1 w formacie: (IB , UBE)", Ic);
 
             string GotowyProgram = "*Wzmacniacz\n" +
@@ -54,9 +90,10 @@ namespace Kolokwium_Pspice_wzmacniacz
 
             Console.WriteLine("\n\n" + GotowyProgram + "\n\n");
 
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\Gotowiec");
+            if(!Directory.Exists(@".\Gotowiec"))
+                Directory.CreateDirectory(@".\Gotowiec");
             File.WriteAllText(".\\Gotowiec\\Program.cir", GotowyProgram);
-            File.Copy(@"E:\Szkoła\Informatyka\C#\Kolokwium-Pspice-wzmacniacz\EUROPE.LIB", ".\\Gotowiec\\EUROPE.LIB", true);
+            File.Copy(@".\EUROPE.LIB", ".\\Gotowiec\\EUROPE.LIB", true);
 
             Console.WriteLine("Zamknij Pspice i kliknij ENTER!!!");
             ReadLine();
@@ -106,10 +143,15 @@ namespace Kolokwium_Pspice_wzmacniacz
             string zmienne = $"Uce = {Uce}, Ic = {Ic}, Ucc = {Ucc}, Ro = {Ro}, Fd = {Fd}, Ib = {Ib}, Ib1 = {Ib1}, Ib2 = {Ib2}, Ube = {Ube}, Beta = {Beta}, Ie = {Ie}, Rc = {Rc}, Re = {Re}, Rb1 = {Rb1}, Rb2 = {Rb2}, gm = {gm}, Rl = {Rl}, ku = {ku}";
             zmienne = zmienne.Replace(", ", "\n");
             File.WriteAllText("Zmienne.txt", zmienne);
-            Console.WriteLine($"Wszytstkie zmienne są w lokalizacji {Directory.GetCurrentDirectory()}\\Zmienne.txt");
+            Console.WriteLine("Wszytstkie zmienne są w lokalizacji .\\Zmienne.txt");
 
             Console.ReadKey();
 
+        }
+
+        static void Manual()
+        {
+            string man = "Instrukcja:\n\t-h\t--help\tOtwarcie manuala\n\t-a\t--arg <Uce[V]> <Ic[mA]> <Ucc[V]> <Ro[kOhm]> <Fd[Hz]> \tArgumenty startowe - trzeba podać w kolejności";
         }
     }
 }
