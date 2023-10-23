@@ -2,8 +2,23 @@
   "profiles": {
     "Kolokwium-Pspice-wzmacniacz": {
       "commandName": "Project",
-      "commandLineArgs": "-a 5,5 1,1 11 10 110 -q bc108b",
       "remoteDebugEnabled": false
+    },
+    "Args Test - manual": {
+      "commandName": "Project",
+      "commandLineArgs": "-h"
+    },
+    "Args Test - Values": {
+      "commandName": "Project",
+      "commandLineArgs": "-a 5,5 1,1 11 10 110"
+    },
+    "Args Test - Q Only": {
+      "commandName": "Project",
+      "commandLineArgs": "-q bc108b"
+    },
+    "Args Test - Q + Values": {
+      "commandName": "Project",
+      "commandLineArgs": "-a 5,5 1,1 11 10 110 -q bc108b"
     }
   }
 }

@@ -37,9 +37,9 @@ namespace Kolokwium_Pspice_wzmacniacz
                 {
                     return;
                 }
-                else if (args[0] == "-h" && args[0] == "--help")
+                else if (args[0] == "-h" || args[0] == "--help")
                 {
-                    Manual(); 
+                    Manual(); return;
                 }
                 GetValuesFromArgs(args, ref Uce, ref Ic, ref Ucc, ref Ro, ref Fd, ref Q1Number, LIB);
             }
@@ -110,7 +110,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                         GotowyProgram +=
                             "*Wzmacniacz z C\n" +
                                 $".lib europe.lib\n" +
-                                $"Q1 4 2 5 BC107B\n" +
+                                $"Q1 4 2 5 {Q1Number}\n" +
                                 $"Re 5 0 {Re}\n" +
                                 $"Rc 3 4 {Rc}\n" +
                                 $"Rb1 3 2 {Rb1}\n" +
@@ -120,7 +120,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                                 $"C2 4 6 {C2}\n" +
                                 $"Ce 5 0 {Ce}\n" +
                                 $"V1 3 0 DC 5.5\n" +
-                                $"V2 1 0 AC 150m SIN 0 150m 1k 0 0 0\n" +
+                                $"V2 1 0 AC 1m SIN 0 1m 1k 0 0 0\n" +
                                 $".AC dec 100 .1 1000meg\n" +
                                 $".TRAN 10n 10m 0 1u\n" +
                                 $".FOUR 1k V(6) V(4)\n" +
@@ -132,17 +132,16 @@ namespace Kolokwium_Pspice_wzmacniacz
                         GotowyProgram +=
                             "*Wzmacniacz z C\n" +
                                 $".lib europe.lib\n" +
-                                $"Q1 4 2 5 BC107B\n" +
+                                $"Q1 4 2 5 {Q1Number}\n" +
                                 $"Re 5 0 {Re}\n" +
                                 $"Rc 3 4 {Rc}\n" +
                                 $"Rb1 3 2 {Rb1}\n" +
                                 $"Rb2 2 0 {Rb2}\n" +
                                 $"R0 4 0 {Ro}\n" +
                                 $"V1 3 0 DC 5.5\n" +
-                                $"V2 2 0 AC 150m SIN 0 150m 1k 0 0 0\n" +
+                                $"V2 2 0 AC 1m SIN 0 1m 1k 0 0 0\n" +
                                 $".AC dec 100 .1 1000meg\n" +
                                 $".TRAN 10n 10m 0 1u\n" +
-                                $".FOUR 1k V(6) V(4)\n" +
                                 $".probe\n" +
                                 $".end\n\n\n";
                         break;
@@ -174,7 +173,7 @@ namespace Kolokwium_Pspice_wzmacniacz
 
         static void SaveAs(double Uce, double Ic, double Ucc, double Ro, double Fd, double Ib, double Ib1, double Ib2, double Ube, double Beta, double Ie, double Rc, double Re, double Rb1, double Rb2, double gm, double Rl, double ku, string GotowyProgram)
             {
-                Console.WriteLine("Gotowy program: \n\n");
+                Console.WriteLine("\n\nGotowy program: \n\n");
 
                 GotowyProgram = GotowyProgram.Replace(',', '.');
                 File.WriteAllText(".\\Gotowiec\\Program.cir", GotowyProgram);
@@ -284,7 +283,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                             Console.Write("Czy chcesz wybrać inną bibliotekę(muci ona być w folderze programu)?(T/N) ");
                             if (Console.ReadLine().ToLower().Remove(2) == "t")
                             {
-                                Console.Write("Podaj jej nazwę(wraz z rozszerzeniem): ");
+                                Console.Write("\nPodaj jej nazwę(wraz z rozszerzeniem): ");
                                 LIB = ".\\Biblioteki\\" + Console.ReadLine();
                             }
                             else { Console.WriteLine("Załaduj plik i uruchom program ponownie"); Environment.Exit(0); }
@@ -297,7 +296,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                 while (Q1 == "")
                 {
 
-                    Console.Write("Nazwa Traznystora: ");
+                    Console.Write("\nNazwa Traznystora: ");
                     string PotencjalneQ1 = Console.ReadLine().ToUpper();
                     if (!File.Exists(LIB))
                     {
@@ -344,9 +343,9 @@ namespace Kolokwium_Pspice_wzmacniacz
         static void Manual()
         {
             string man = "Instrukcja:\n" +
-                "\t-h\t--help\tOtwarcie manuala\n" +
-                "\t-a\t--arg <Uce[V]> <Ic[mA]> <Ucc[V]> <Ro[kOhm]> <Fd[Hz]> \tArgumenty startowe - trzeba podać w kolejności\n" +
-                "\t-q <Q1_NAME>\tPrzypisanie innego tranzystora(podaj numer)\n";
+                "-h  --help\t\t\t\t\t\t\t\tOtwarcie manuala\n" +
+                "-a  --arg\t<Uce[V]> <Ic[mA]> <Ucc[V]> <Ro[kOhm]> <Fd[Hz]>\t\tArgumenty startowe - trzeba podać w kolejności\n" +
+                "-q\t\t<Q1_NAME>\t\t\t\t\t\tPrzypisanie innego tranzystora(podaj numer)\n";
 
             Console.WriteLine(man);
         }
