@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Kolokwium-Pspice-wzmacniacz": {
+      "commandName": "Project",
+      "commandLineArgs": "-a 5,5 1,1 11 10 110 -q bc108b",
+      "remoteDebugEnabled": false
+    }
+  }
+}
