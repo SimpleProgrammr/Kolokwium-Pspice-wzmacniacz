@@ -440,10 +440,9 @@ namespace Kolokwium_Pspice_wzmacniacz
                 $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
                 $"V_Vin 1 0 AC 1\n" +
                 $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
-                $"R2 1 0 {R2.ToString().Replace(',', '.')}\n" +
+                $"R2 3 0 {R2.ToString().Replace(',', '.')}\n" +
                 $"C1 1 2 {C1.ToString().Replace(',', '.')}u\n" +
-                $"C2 1 0 {C2.ToString().Replace(',', '.')}u\n" +
-                $"Ro 2 0 {R1+R2/2}" +
+                $"C2 2 3 {C2.ToString().Replace(',', '.')}u\n" +
                 $".AC dec 500 100 10meg\n" +
                 $".PROBE\n" +
                 $".END";
