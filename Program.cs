@@ -26,6 +26,33 @@ namespace Kolokwium_Pspice_wzmacniacz
 
         static void Main(string[] args)
         {
+            if (args.Length > 0)
+            {
+                FILTR f = new();
+                switch (args[0].ToUpper())
+                {
+
+                    case "FPP":
+                        f.FPP();
+                        break;
+
+                    case "FPZ":
+                        f.FPZ();
+                        break;
+
+                    case "FDP":
+                        f.FDP();
+                        break;
+
+                    case "FGP":
+                        f.FGP();
+                        break;
+
+                }
+
+                return;
+            }
+
             for (int i = 0; i < args.Length; i++) { args[i] = args[i].ToLower(); }
 
             double Uce = 0, Ic = 0, Ucc = 0, Ro = 0, Fd = 0, Ib = 0, Ib1 = 0, Ib2 = 0, Ube = 0, Beta = 0, Ie = 0, Rc = 0, Re = 0, Rb1 = 0, Rb2 = 0, gm = 0, Rl = 0, ku = 0;
@@ -348,6 +375,133 @@ namespace Kolokwium_Pspice_wzmacniacz
                 "-q\t\t<Q1_NAME>\t\t\t\t\t\tPrzypisanie innego tranzystora(podaj numer)\n";
 
             Console.WriteLine(man);
+        }
+    }
+
+    public class FILTR
+    {
+        
+        public void FPP()
+        {
+            Console.Write("Fd [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double Freq);
+
+            Console.Write("B [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double B);
+
+            Console.Write("R1 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R1);
+
+            Console.Write("R2 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R2);
+
+            double C1 = 0, C2 = 0;
+
+            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)) * 1000000);
+            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)) * 1000000);
+
+            string GotowyProgram = 
+                $"* FPP\n" +
+                $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
+                $"V_Vin 1 0 AC 1\n" +
+                $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
+                $"R2 3 0 {R2.ToString().Replace(',', '.')}\n" +
+                $"C1 2 0 {C1.ToString().Replace(',', '.')}u\n" +
+                $"C2 2 3 {C2.ToString().Replace(',', '.')}u\n" +
+                $".AC dec 500 100 10meg\n" +
+                $".PROBE\n" +
+                $".END";
+
+            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+
+        }
+
+        public void FPZ()
+        {
+            Console.Write("Fd [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double Freq);
+
+            Console.Write("B [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double B);
+
+            Console.Write("R1 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R1);
+
+            Console.Write("R2 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R2);
+
+            double C1 = 0, C2 = 0;
+
+            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)) * 1000000);
+            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)) * 1000000);
+
+            string GotowyProgram =
+                $"* FPZ\n" +
+                $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
+                $"V_Vin 1 0 AC 1\n" +
+                $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
+                $"R2 1 0 {R2.ToString().Replace(',', '.')}\n" +
+                $"C1 1 2 {C1.ToString().Replace(',', '.')}u\n" +
+                $"C2 1 0 {C2.ToString().Replace(',', '.')}u\n" +
+                $"Ro 2 0 {R1+R2/2}" +
+                $".AC dec 500 100 10meg\n" +
+                $".PROBE\n" +
+                $".END";
+
+            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+
+        }
+        public void FDP()
+        {
+            Console.Write("Fg [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double Freq);
+            
+            Console.Write("R1 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R1);
+
+            double C1 = 0;
+
+            C1 = (1 / (2 * Math.PI * R1 * (Freq) * 1000000));
+            
+
+            string GotowyProgram =
+                $"* FDP\n" +
+                $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
+                $"V_Vin 1 0 AC 1\n" +
+                $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
+                $"C1 2 0 {C1.ToString().Replace(',','.')}u\n" +
+                $".AC dec 500 100 10meg\n" +
+                $".PROBE\n" +
+                $".END";
+
+            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+
+        }
+        public void FGP()
+        {
+            Console.Write("Fg [Hz]: ");
+            Double.TryParse(Console.ReadLine(), out double Freq);
+
+            Console.Write("R1 [Ohm]: ");
+            Double.TryParse(Console.ReadLine(), out double R1);
+
+
+            double C1 = 0;
+
+            C1 = (1 / (2 * Math.PI * R1 * (Freq) * 1000000));
+
+
+            string GotowyProgram =
+                $"* FDP\n" +
+                $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
+                $"V_Vin 1 0 AC 1\n" +
+                $"R1 2 0 {R1.ToString().Replace(',', '.')}\n" +
+                $"C1 1 2 {C1.ToString().Replace(',', '.')}u\n" +
+                $".AC dec 500 100 10meg\n" +
+                $".PROBE\n" +
+                $".END";
+
+            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
         }
     }
 }

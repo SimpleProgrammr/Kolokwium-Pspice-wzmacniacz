@@ -19,6 +19,22 @@
     "Args Test - Q + Values": {
       "commandName": "Project",
       "commandLineArgs": "-a 5,5 1,1 11 10 110 -q bc108b"
+    },
+    "FDP": {
+      "commandName": "Project",
+      "commandLineArgs": "FDP"
+    },
+    "FGP": {
+      "commandName": "Project",
+      "commandLineArgs": "FGP"
+    },
+    "FPP": {
+      "commandName": "Project",
+      "commandLineArgs": "FPP\r\n"
+    },
+    "FPZ": {
+      "commandName": "Project",
+      "commandLineArgs": "FPZ"
     }
   }
 }
