@@ -1,10 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.IO;
-using System.Collections.Generic;
-
-namespace Kolokwium_Pspice_wzmacniacz
+﻿namespace Kolokwium_Pspice_wzmacniacz
 {
     internal class Program
     {
@@ -12,13 +6,13 @@ namespace Kolokwium_Pspice_wzmacniacz
         {
             string? line = Console.ReadLine()?.Replace('.', ',');
 
-            if(line == null) return "0";
+            if (line == null) return "0";
 
             line = line.Trim();
 
             foreach (char ch in line)
             {
-                if(ch != '1' && ch != '2' && ch != '3' && ch != '4' && ch != '5' && ch != '6' && ch != '7' && ch != '8' && ch != '9' && ch != '0' && ch != ',')
+                if (ch != '1' && ch != '2' && ch != '3' && ch != '4' && ch != '5' && ch != '6' && ch != '7' && ch != '8' && ch != '9' && ch != '0' && ch != ',')
                     return "0";
             }
             return line;
@@ -120,7 +114,7 @@ namespace Kolokwium_Pspice_wzmacniacz
             {
                 Console.Clear();
                 Console.Write("Czy podano wartości Kondensatorów(T/N): ");
-                
+
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.T:
@@ -199,21 +193,21 @@ namespace Kolokwium_Pspice_wzmacniacz
         }
 
         static void SaveAs(double Uce, double Ic, double Ucc, double Ro, double Fd, double Ib, double Ib1, double Ib2, double Ube, double Beta, double Ie, double Rc, double Re, double Rb1, double Rb2, double gm, double Rl, double ku, string GotowyProgram)
-            {
-                Console.WriteLine("\n\nGotowy program: \n\n");
+        {
+            Console.WriteLine("\n\nGotowy program: \n\n");
 
-                GotowyProgram = GotowyProgram.Replace(',', '.');
-                File.WriteAllText(".\\Gotowiec\\Program.cir", GotowyProgram);
-                Console.WriteLine(GotowyProgram);
+            GotowyProgram = GotowyProgram.Replace(',', '.');
+            File.WriteAllText(".\\Gotowiec\\Program.cir", GotowyProgram);
+            Console.WriteLine(GotowyProgram);
 
-                string zmienne = $"Uce = {Uce}, Ic = {Ic}, Ucc = {Ucc}, Ro = {Ro}, Fd = {Fd}, Ib = {Ib}, Ib1 = {Ib1}, Ib2 = {Ib2}, Ube = {Ube}, Beta = {Beta}, Ie = {Ie}, Rc = {Rc}, Re = {Re}, Rb1 = {Rb1}, Rb2 = {Rb2}, gm = {gm}, Rl = {Rl}, ku = {ku}";
+            string zmienne = $"Uce = {Uce}, Ic = {Ic}, Ucc = {Ucc}, Ro = {Ro}, Fd = {Fd}, Ib = {Ib}, Ib1 = {Ib1}, Ib2 = {Ib2}, Ube = {Ube}, Beta = {Beta}, Ie = {Ie}, Rc = {Rc}, Re = {Re}, Rb1 = {Rb1}, Rb2 = {Rb2}, gm = {gm}, Rl = {Rl}, ku = {ku}";
 
-                zmienne = zmienne.Replace(", ", "\n");
+            zmienne = zmienne.Replace(", ", "\n");
 
-                File.WriteAllText("Zmienne.txt", zmienne);
+            File.WriteAllText("Zmienne.txt", zmienne);
 
-                Console.WriteLine("Wszytstkie zmienne są w lokalizacji .\\Zmienne.txt");
-            }
+            Console.WriteLine("Wszytstkie zmienne są w lokalizacji .\\Zmienne.txt");
+        }
 
         static void GetValuesFromArgs(string?[] args, ref double Uce, ref double Ic, ref double Ucc, ref double Ro, ref double Fd, ref string Q1, string LIB)
         {
@@ -229,7 +223,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                     if (args.Length >= 3)
                     {
                         i++;
-                        Ic = Convert.ToDouble(args[i].Replace('.', ','))/1000;
+                        Ic = Convert.ToDouble(args[i].Replace('.', ',')) / 1000;
                     }
                     if (args.Length >= 4)
                     {
@@ -239,7 +233,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                     if (args.Length >= 5)
                     {
                         i++;
-                        Ro = Convert.ToDouble(args[i].Replace('.', ','))*1000;
+                        Ro = Convert.ToDouble(args[i].Replace('.', ',')) * 1000;
                     }
                     if (args.Length >= 6)
                     {
@@ -257,7 +251,7 @@ namespace Kolokwium_Pspice_wzmacniacz
 
                 }
             }
-            
+
         }
 
         static void SettingFirstValues(ref double Uce, ref double Ic, ref double Ucc, ref double Ro, ref double Fd, ref string Q1, ref string LIB)
@@ -295,7 +289,7 @@ namespace Kolokwium_Pspice_wzmacniacz
             while (Q1 == "")
             {
                 Console.Write("Czy chcesz wybrać inny niż domyślny model tranzystora?(T/N) ");
-                if(Console.ReadKey().Key == ConsoleKey.N)
+                if (Console.ReadKey().Key == ConsoleKey.N)
                 {
                     if (File.ReadAllText(LIB).Split("BC107B").Length > 1)
                     {
@@ -319,7 +313,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                         }
                         continue;
                     }
-                }    
+                }
                 while (Q1 == "")
                 {
 
@@ -345,7 +339,7 @@ namespace Kolokwium_Pspice_wzmacniacz
                     else Console.WriteLine("Brak podanego modelu w wybranej bibiotece.");
                 }
             }
-                
+
         }
 
         static void SetCapasitors(ref double C1, ref double C2, ref double Ce)
@@ -380,7 +374,7 @@ namespace Kolokwium_Pspice_wzmacniacz
 
     public class FILTR
     {
-        
+
         public void FPP()
         {
             Console.Write("Fd [Hz]: ");
@@ -397,22 +391,22 @@ namespace Kolokwium_Pspice_wzmacniacz
 
             double C1 = 0, C2 = 0;
 
-            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)) * 1000000);
-            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)) * 1000000);
+            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)));
+            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)));
 
-            string GotowyProgram = 
+            string GotowyProgram =
                 $"* FPP\n" +
                 $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
                 $"V_Vin 1 0 AC 1\n" +
                 $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
                 $"R2 3 0 {R2.ToString().Replace(',', '.')}\n" +
-                $"C1 2 0 {C1.ToString().Replace(',', '.')}u\n" +
-                $"C2 2 3 {C2.ToString().Replace(',', '.')}u\n" +
-                $".AC dec 500 100 10meg\n" +
+                $"C1 2 0 {C1.ToString().Replace(',', '.')}\n" +
+                $"C2 2 3 {C2.ToString().Replace(',', '.')}\n" +
+                $".AC dec 500 100 1000meg\n" +
                 $".PROBE\n" +
                 $".END";
 
-            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+            Save(".\\Gotowiec\\Filtr.cir", GotowyProgram);
 
         }
 
@@ -432,8 +426,8 @@ namespace Kolokwium_Pspice_wzmacniacz
 
             double C1 = 0, C2 = 0;
 
-            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)) * 1000000);
-            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)) * 1000000);
+            C1 = (1 / (2 * Math.PI * R1 * (Freq + B / 2)));
+            C2 = (1 / (2 * Math.PI * R2 * (Freq - B / 2)));
 
             string GotowyProgram =
                 $"* FPZ\n" +
@@ -441,39 +435,39 @@ namespace Kolokwium_Pspice_wzmacniacz
                 $"V_Vin 1 0 AC 1\n" +
                 $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
                 $"R2 3 0 {R2.ToString().Replace(',', '.')}\n" +
-                $"C1 1 2 {C1.ToString().Replace(',', '.')}u\n" +
-                $"C2 2 3 {C2.ToString().Replace(',', '.')}u\n" +
-                $".AC dec 500 100 10meg\n" +
+                $"C1 1 2 {C1.ToString().Replace(',', '.')}\n" +
+                $"C2 2 3 {C2.ToString().Replace(',', '.')}\n" +
+                $".AC dec 500 100 1000meg\n" +
                 $".PROBE\n" +
                 $".END";
 
-            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+            Save(".\\Gotowiec\\Filtr.cir", GotowyProgram);
 
         }
         public void FDP()
         {
             Console.Write("Fg [Hz]: ");
             Double.TryParse(Console.ReadLine(), out double Freq);
-            
+
             Console.Write("R1 [Ohm]: ");
             Double.TryParse(Console.ReadLine(), out double R1);
 
             double C1 = 0;
 
-            C1 = (1 / (2 * Math.PI * R1 * (Freq) * 1000000));
-            
+            C1 = (1 / (2 * Math.PI * R1 * (Freq)));
+
 
             string GotowyProgram =
                 $"* FDP\n" +
                 $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
                 $"V_Vin 1 0 AC 1\n" +
                 $"R1 1 2 {R1.ToString().Replace(',', '.')}\n" +
-                $"C1 2 0 {C1.ToString().Replace(',','.')}u\n" +
-                $".AC dec 500 100 10meg\n" +
+                $"C1 2 0 {C1.ToString().Replace(',', '.')}\n" +
+                $".AC dec 500 100 1000meg\n" +
                 $".PROBE\n" +
                 $".END";
 
-            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+            Save(".\\Gotowiec\\Filtr.cir", GotowyProgram);
 
         }
         public void FGP()
@@ -487,7 +481,7 @@ namespace Kolokwium_Pspice_wzmacniacz
 
             double C1 = 0;
 
-            C1 = (1 / (2 * Math.PI * R1 * (Freq) * 1000000));
+            C1 = (1 / (2 * Math.PI * R1 * (Freq)));
 
 
             string GotowyProgram =
@@ -495,12 +489,22 @@ namespace Kolokwium_Pspice_wzmacniacz
                 $"* Fd = {Freq.ToString().Replace(',', '.')}\n" +
                 $"V_Vin 1 0 AC 1\n" +
                 $"R1 2 0 {R1.ToString().Replace(',', '.')}\n" +
-                $"C1 1 2 {C1.ToString().Replace(',', '.')}u\n" +
-                $".AC dec 500 100 10meg\n" +
+                $"C1 1 2 {C1.ToString().Replace(',', '.')}\n" +
+                $".AC dec 500 100 1000meg\n" +
                 $".PROBE\n" +
                 $".END";
 
-            File.WriteAllText(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+            Save(".\\Gotowiec\\Filtr.cir", GotowyProgram);
+        }
+
+        public void Save(string path, string txt)
+        {
+            string folder = (path.Remove(path.LastIndexOf('\\')));
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            File.WriteAllText(path, txt);
         }
     }
 }
