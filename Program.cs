@@ -43,8 +43,6 @@
                         break;
 
                 }
-
-                return;
             }
 
             for (int i = 0; i < args.Length; i++) { args[i] = args[i].ToLower(); }
